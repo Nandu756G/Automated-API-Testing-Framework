@@ -47,7 +47,7 @@ api-test-automation/
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/fawaz-devs/api-test-automation.git
+git clone https://github.com/Nandu756G/Automated-API-Testing-Framework.git
 cd api-test-automation
 
 # 2. (Optional) Create a virtual environment
@@ -94,7 +94,7 @@ The HTML report is saved to **`reports/report.html`** and can be opened in any b
 
 ## 🧪 Test Cases
 
-A total of **35 tests** across three test files:
+A total of **34 tests** across three test files:
 
 | File | Category | Count |
 |---|---|---|
