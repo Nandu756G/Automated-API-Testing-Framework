@@ -1,0 +1,59 @@
+name: API Test Suite CI
+
+on:
+  push:
+    branches: ["main", "master", "develop"]
+  pull_request:
+    branches: ["main", "master", "develop"]
+
+jobs:
+  test:
+    name: Run Automated API Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      # ------------------------------------------------------------------
+      # 1. Check out source code
+      # ------------------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ------------------------------------------------------------------
+      # 2. Set up Python
+      # ------------------------------------------------------------------
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      # ------------------------------------------------------------------
+      # 3. Install dependencies
+      # ------------------------------------------------------------------
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # ------------------------------------------------------------------
+      # 4. Run pytest and generate HTML report
+      # ------------------------------------------------------------------
+      - name: Run test suite
+        run: |
+          mkdir -p reports
+          pytest tests/ \
+            --html=reports/report.html \
+            --self-contained-html \
+            -v \
+            --tb=short
+
+      # ------------------------------------------------------------------
+      # 5. Upload HTML report as a build artifact
+      # ------------------------------------------------------------------
+      - name: Upload HTML test report
+        uses: actions/upload-artifact@v4
+        if: always()           # upload even when tests fail
+        with:
+          name: html-test-report
+          path: reports/report.html
+          retention-days: 14
